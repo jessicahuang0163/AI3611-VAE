@@ -1,0 +1,35 @@
+
+meta_data:
+  pipeline_exp_name: "benchmark"
+  description: "the complete training pipeline"
+  num_workers: 1
+  use_gpu: true
+  key_config:
+    common:
+      model: "model"
+      dataset: "data"
+      img_size: "img_size"
+
+common:
+  model: VAE 
+  dataset: MNIST
+  img_size: 32
+  channel: 1
+
+algo_training:
+  variables:
+    lr: [0.003]  
+    epoches: [20]
+    batch_size: [64]
+    maxD_steps: [2]
+    latent_dim: [1]
+    kld_weight: [0.00003]
+    dropout: [0.2]
+    seed: [111]
+
+  constants:
+    exp_name: "vae_train"  # exp_name is required
+    script_path: exp_script.py
+    optimizer: adam # options=[adam, rmsprop]
+    loss: mse # choices=[mse, bce]
+    arch: mlp #choices=[mlp, deconv]
