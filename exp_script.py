@@ -1,10 +1,8 @@
 import yaml
 import os
 import argparse
-import torch
 
 import utils.pytorch_util as ptu
-from utils import logger
 from utils.launcher_util import setup_logger
 from src import vae
 from utils.base.dataloader import loading_data
@@ -19,13 +17,10 @@ def experiment(exp_specs, device):
     )
 
     model = vae.VAE(exp_specs).to(device)
-    opt = torch.optim.Adam(model.parameters(), lr=exp_specs["lr"])
 
     train(
         model=model,
         dataloader=[train_loader, test_loader],
-        opt=opt,
-        logger=logger,
         exp_specs=exp_specs,
         device=device,
     )

@@ -9,27 +9,30 @@ meta_data:
       model: "model"
       dataset: "data"
       img_size: "img_size"
+    algo_training:
+      lr: "lr"
+      batch_size: "bs"
+      alpha: "alpha"
+      dropout: "drop"
 
 common:
-  model: VAE 
+  model: VAE_conv
   dataset: MNIST
   img_size: 32
-  channel: 1
 
 algo_training:
   variables:
-    lr: [0.003]  
+    lr: [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1]  
     epoches: [20]
-    batch_size: [64]
-    maxD_steps: [2]
+    batch_size: [64, 128, 256]
     latent_dim: [1]
-    kld_weight: [0.00003]
-    dropout: [0.2]
+    alpha: [0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10]
+    dropout: [0.1, 0.2, 0.3]
     seed: [111]
+    arch: [conv]
 
   constants:
     exp_name: "vae_train"  # exp_name is required
     script_path: exp_script.py
-    optimizer: adam # options=[adam, rmsprop]
-    loss: mse # choices=[mse, bce]
-    arch: mlp #choices=[mlp, deconv]
+    optimizer: adam
+    loss: mse
