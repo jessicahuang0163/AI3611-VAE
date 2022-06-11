@@ -12,10 +12,10 @@ class MLPEncoder(nn.Module):
         self.net = nn.Sequential(
             nn.Linear(self.img_size ** 2, 64),
             nn.ReLU(),
-            nn.Dropout(p=0.1),
+            # nn.Dropout(p=0.1),
             nn.Linear(64, 16),
-            nn.Tanh(),
-            nn.Dropout(p=0.1),
+            nn.ReLU(),
+            # nn.Dropout(p=0.1),
             nn.Linear(16, 2 * self.latent_dim),
         )
 
@@ -90,7 +90,7 @@ class ConvDecoder(nn.Module):
             nn.BatchNorm2d(self.hidden_dims[-2]),
             nn.LeakyReLU(0.2, inplace=True),
             nn.Conv2d(self.hidden_dims[-2], self.hidden_dims[-1], 3, 1, 1),
-            nn.Tanh(),
+            nn.Sigmoid(),
         ]
 
         self.net2 = nn.Sequential(*self.net2)

@@ -10,10 +10,8 @@ meta_data:
       dataset: "data"
       img_size: "img_size"
     algo_training:
-      lr: "lr"
-      batch_size: "bs"
       alpha: "alpha"
-      dropout: "drop"
+      latent_dim: "dim"
 
 common:
   model: VAE 
@@ -22,17 +20,15 @@ common:
 
 algo_training:
   variables:
-    lr: [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1]  
+    lr: [0.002] 
     epoches: [20]
-    batch_size: [64, 128, 256]
+    batch_size: [64]
     latent_dim: [1]
-    alpha: [0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10]
-    dropout: [0.1, 0.2, 0.3]
-    seed: [111]
+    alpha: [0.000008]
+    step: [1]
     arch: [mlp]
 
   constants:
     exp_name: "vae_train"  # exp_name is required
     script_path: exp_script.py
-    optimizer: adam
-    loss: mse
+    seed: 111

@@ -57,7 +57,11 @@ def train(model, dataloader, exp_specs, device):
 
         num = 20
         if exp_specs["latent_dim"] == 1:
-            latents = (torch.arange(num ** 2) - num ** 2 / 2).reshape(-1, 1) / 40.0
+            latents = (
+                torch.arange(start=0, end=num ** 2, step=exp_specs["step"])
+                - num ** 2 / 2
+            ).reshape(-1, 1) / 40.0
+
         elif exp_specs["latent_dim"] == 2:
             indexes = (torch.arange(num) - num / 2) / 5.0
             x, y = torch.meshgrid(indexes, indexes, indexing="ij")
@@ -75,8 +79,15 @@ def train(model, dataloader, exp_specs, device):
             best_val_loss = val_loss
 
     generate_imgs = model.generate(latents)
-    grid = torchvision.utils.make_grid(generate_imgs, nrow=num)
-    torchvision.utils.save_image(grid, "generate_image.png")
+    grid = torchvision.utils.make_grid(generate_imgs, nrow=20)
+    if exp_specs["latent_dim"] == 1:
+        torchvision.utils.save_image(
+            grid, "image/dim1/generate_image_alpha_{}.png".format(exp_specs["alpha"])
+        )
+    elif exp_specs["latent_dim"] == 2:
+        torchvision.utils.save_image(
+            grid, "image/dim2/generate_image_alpha_{}.png".format(exp_specs["alpha"])
+        )
 
 
 def val(exp_specs, model, dataloader, device):

@@ -43,3 +43,27 @@ class VAE(nn.Module):
         latents: [B * latent_dim]
         """
         return self.decoder(latents).reshape(-1, 1, self.img_size, self.img_size)
+
+    def predict(self, batch):
+        """ 
+        encoder output
+        Return:
+        latent
+        """
+        if self.arch == "conv":
+            mu, log_sigma = self.encoder(batch)
+            mu, log_sigma = (
+                mu.reshape(-1, self.latent_dim),
+                log_sigma.reshape(-1, self.latent_dim),
+            )
+            #  Sample from N(mu, sigma)
+            std = torch.exp(0.5 * log_sigma)
+            eps = torch.randn_like(std)
+            latent = eps * std + mu
+        elif self.arch == "mlp":
+            mu, log_sigma = self.encoder(batch)
+            #  Sample from N(mu, sigma)
+            std = torch.exp(0.5 * log_sigma)
+            eps = torch.randn_like(std)
+            latent = eps * std + mu
+        return latent

@@ -9,20 +9,24 @@ meta_data:
       model: "model"
       dataset: "data"
       img_size: "img_size"
+    algo_training:
+      alpha: "alpha"
+      latent_dim: "dim"
 
 common:
-  model: VAE_conv
+  model: VAE 
   dataset: MNIST
   img_size: 32
 
 algo_training:
   variables:
-    lr: [0.00001]  
+    lr: [0.01] 
     epoches: [20]
     batch_size: [64]
-    latent_dim: [1]
-    alpha: [0.001]
-    arch: [conv]
+    latent_dim: [2]
+    alpha: [0.00008]
+    step: [1]
+    arch: [mlp]
 
   constants:
     exp_name: "vae_train"  # exp_name is required
